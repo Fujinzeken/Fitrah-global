@@ -1,26 +1,118 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-ivory: #F5F1E8;
+  --color-ivory-2: #EFEADC;
+  --color-sand: #E8DFCF;
+  --color-sand-2: #D9CDB6;
+  --color-rule: #D7CFBC;
+  --color-rule-2: #C7BEA8;
+  --color-green-500: #2F5A47;
+  --color-green-700: #1A3A2E;
+  --color-green-800: #16382C;
+  --color-green-900: #0F2A20;
+  --color-gold: #B8924A;
+  --color-gold-soft: #C9A766;
+  --color-charcoal: #1C1C1A;
+  --color-ink: #2A2A26;
+  --color-muted: #6B6A62;
+
+  --font-serif: var(--font-newsreader);
+  --font-sans: var(--font-inter-tight);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  overflow-x: clip;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Consistent focus indicator for all interactive elements. Uses currentColor
+   so the ring inherits the element's text color, automatically contrasting
+   with any background (light or dark). */
+@layer base {
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer base {
+  summary { list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+}
+
+/* PRD §16 motion: slow gradient movement on the Final CTA backdrop.
+   Two soft glows drift across a deep green base over ~40s. */
+@keyframes fg-cta-drift {
+  0%   { background-position: 18% 28%, 82% 72%; }
+  50%  { background-position: 38% 58%, 62% 42%; }
+  100% { background-position: 18% 28%, 82% 72%; }
+}
+
+.bg-cta-glow {
+  background-color: var(--color-green-900);
+  background-image:
+    radial-gradient(ellipse 70% 55% at 30% 30%, color-mix(in oklab, var(--color-green-500) 70%, transparent) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 45% at 70% 70%, color-mix(in oklab, var(--color-gold) 22%, transparent) 0%, transparent 65%);
+  background-size: 180% 180%, 180% 180%;
+  background-repeat: no-repeat, no-repeat;
+  animation: fg-cta-drift 40s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-cta-glow { animation: none; }
+}
+
+/* Sand surface with subtle ruled-paper overlay. Mirrors the brand HTML's
+   .principles treatment (background: var(--sand) + repeating green hairlines
+   at 40px, ~5% opacity). Honors the brand book's 60/25/10/4/1 ratio by
+   giving the Sand layer real surface presence. */
+.bg-sand-ruled {
+  background-color: var(--color-sand);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 39px,
+      color-mix(in oklab, var(--color-green-700) 5%, transparent) 39px 40px
+    );
+}
+
+/* Hero atmospheric backdrop — abstract gradient composition (replaces the
+   Unsplash placeholder). Deep green base with a warm dawn glow and a cool
+   sage glow drifting very slowly. Client can swap by replacing this class
+   with an <img> / Image component when real photography is provided. */
+@keyframes fg-hero-drift {
+  0%   { background-position: 70% 80%, 25% 25%, 0 0; }
+  50%  { background-position: 55% 65%, 35% 40%, 0 0; }
+  100% { background-position: 70% 80%, 25% 25%, 0 0; }
+}
+
+.bg-hero-atmosphere {
+  background-color: var(--color-green-900);
+  background-image:
+    radial-gradient(ellipse 65% 55% at 70% 80%, color-mix(in oklab, var(--color-gold-soft) 32%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 25% 25%, color-mix(in oklab, var(--color-green-500) 55%, transparent) 0%, transparent 70%),
+    linear-gradient(180deg, transparent 0%, color-mix(in oklab, var(--color-green-900) 60%, transparent) 100%);
+  background-size: 200% 200%, 200% 200%, 100% 100%;
+  background-repeat: no-repeat;
+  animation: fg-hero-drift 55s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-hero-atmosphere { animation: none; }
 }
