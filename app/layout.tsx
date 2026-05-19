@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Inter_Tight, JetBrains_Mono, Newsreader } from "next/font/google";
+import { Amiri, Inter_Tight, JetBrains_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
+import { Nav } from "@/components/layout/Nav";
+import { Footer } from "@/components/layout/Footer";
 
 const interTight = Inter_Tight({
   variable: "--font-inter-tight",
@@ -19,6 +21,14 @@ const newsreader = Newsreader({
   subsets: ["latin"],
   style: ["normal", "italic"],
   weight: ["300", "400", "500", "600"],
+});
+
+// Amiri — Arabic naskh face per brand spec (brand-sections.jsx Section04).
+// Loaded for the Fitrah etymology calligraphic anchor on About §02.
+const amiri = Amiri({
+  variable: "--font-amiri",
+  subsets: ["arabic"],
+  weight: ["400", "700"],
 });
 
 // TODO(client): replace with the production URL once domain is confirmed.
@@ -75,14 +85,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${interTight.variable} ${jetbrainsMono.variable} ${newsreader.variable} h-full antialiased`}
+      className={`${interTight.variable} ${jetbrainsMono.variable} ${newsreader.variable} ${amiri.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        {children}
+        <Nav />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );

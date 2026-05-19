@@ -1,5 +1,5 @@
-import { Eyebrow } from "../common/Eyebrow";
-import { Reveal } from "../common/Reveal";
+import { Eyebrow } from "./Eyebrow";
+import { Reveal } from "./Reveal";
 
 // Message verbatim from client-supplied content (new-info.md, "Homepage
 // Leadership Message Copy"). Portrait still not supplied — placeholder.
