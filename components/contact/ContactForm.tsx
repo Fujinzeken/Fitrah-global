@@ -7,9 +7,10 @@ import { useState } from "react";
 // (Website, Phone number, Country, Attachment / deck upload). The "Contact
 // reason" options are the six PRD Contact Categories.
 //
-// No backend is connected: submission is validated client-side, shows an
-// honest acknowledgment, and stores/sends nothing. Wire to a form handler /
-// email service before launch. Flagged in placeholders.md.
+// Submits to /api/contact, which forwards the submission to a Telegram group
+// (sendMessage for the text, sendDocument for the optional attachment). A
+// hidden `_hp` honeypot field traps naive bots. Form values are uncontrolled,
+// so they survive a failed submit and the user can retry without re-typing.
 
 const REASONS = [
   "Partnerships",
@@ -29,15 +30,38 @@ function Required() {
   return <span className="text-gold"> *</span>;
 }
 
-export function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
+type Status = "idle" | "submitting" | "success" | "error";
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+export function ContactForm() {
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    setStatus("submitting");
+    setErrorMsg(null);
+
+    const fd = new FormData(e.currentTarget);
+
+    try {
+      const res = await fetch("/api/contact", { method: "POST", body: fd });
+      const data = (await res.json().catch(() => ({ ok: false }))) as {
+        ok?: boolean;
+        error?: string;
+      };
+      if (res.ok && data.ok) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+        setErrorMsg(data.error ?? "Something went wrong. Please try again.");
+      }
+    } catch {
+      setStatus("error");
+      setErrorMsg("Could not reach the server. Please check your connection and try again.");
+    }
   }
 
-  if (submitted) {
+  if (status === "success") {
     return (
       <div
         role="status"
@@ -54,12 +78,33 @@ export function ContactForm() {
     );
   }
 
+  const submitting = status === "submitting";
+
   return (
     <form
       onSubmit={handleSubmit}
       noValidate
       className="rounded-2xl border border-rule bg-ivory p-10 max-md:p-7"
     >
+      {/* Honeypot — invisible to humans, attractive to naive bots. */}
+      <input
+        type="text"
+        name="_hp"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[-9999px] h-0 w-0 opacity-0"
+      />
+
+      {status === "error" && errorMsg && (
+        <div
+          role="alert"
+          className="mb-6 rounded-xl border border-gold/40 bg-gold/[0.06] px-4 py-3 text-[14px] leading-normal text-ink/85"
+        >
+          {errorMsg}
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-5 max-md:grid-cols-1">
         <div>
           <label htmlFor="c-name" className={labelBase}>
@@ -143,17 +188,22 @@ export function ContactForm() {
               id="c-file"
               name="attachment"
               type="file"
+              accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,image/jpeg,image/png"
               className={`${fieldBase} file:mr-3 file:rounded-full file:border-0 file:bg-sand file:px-3 file:py-1 file:font-mono file:text-[10px] file:uppercase file:tracking-[0.12em] file:text-green-700`}
             />
+            <p className="mt-2 text-[11.5px] leading-[1.5] text-muted">
+              PDF, DOC, DOCX, PPT, PPTX, TXT, JPG, PNG &middot; up to 20 MB
+            </p>
           </div>
         </div>
       </div>
 
       <button
         type="submit"
-        className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-green-700 px-6 py-3.5 text-[15px] font-medium text-ivory transition-colors hover:bg-green-800 max-md:w-full"
+        disabled={submitting}
+        className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-green-700 px-6 py-3.5 text-[15px] font-medium text-ivory transition-colors hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-60 max-md:w-full"
       >
-        Send message
+        {submitting ? "Sending…" : "Send message"}
       </button>
       <p className="mt-4 text-center text-[12px] leading-[1.5] text-muted">
         Fields marked <span className="text-gold">*</span> are required.
