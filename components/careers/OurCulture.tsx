@@ -1,10 +1,17 @@
 import { Eyebrow } from "../common/Eyebrow";
 import { Reveal } from "../common/Reveal";
 
-// PRD §9 Page 11 §2 — Our Culture. PRD supplies no copy. Grounded by applying
-// the Philosophy principles to how the team works (trust, clarity, long-term
-// thinking). Authored framing; fuller culture copy flagged client-pending in
-// placeholders.md.
+// PRD §9 Page 11 §2 — Our Culture. Tenets verbatim from client-supplied
+// content (new-info.md, "Our Culture"). Presented as a manifesto-style list.
+
+const TENETS = [
+  "We are builders of institutions.",
+  "We think in decades, not quarters.",
+  "We favor long-term trust over short-term attention.",
+  "We believe excellence and character are equally important.",
+  "We value curiosity, ownership, craftsmanship, and service.",
+  "We are building products, companies, and ideas that we hope will outlive us.",
+];
 
 export function OurCulture() {
   return (
@@ -14,35 +21,27 @@ export function OurCulture() {
           <Reveal>
             <Eyebrow>Our Culture</Eyebrow>
             <h2 className="mt-6 max-w-[14ch] font-serif font-normal text-green-700 leading-[1.05] tracking-[-0.022em] text-[clamp(28px,3.4vw,44px)]">
-              We build the way we{" "}
-              <em className="italic font-light text-green-500">think.</em>
+              We are builders of{" "}
+              <em className="italic font-light text-green-500">institutions.</em>
             </h2>
           </Reveal>
 
           <Reveal delay={140}>
-            <div>
-              <div className="space-y-6 text-[17px] leading-[1.65] text-ink/85 max-w-[58ch]">
-                <p>
-                  The same principles that shape our products shape how we work
-                  &mdash; trust over urgency, clarity over noise, and long-term
-                  thinking over short-term wins.
-                </p>
-                <p>
-                  We are a small, deliberate team building for a generational
-                  horizon, with the focus and patience that calm, trustworthy
-                  technology requires.
-                </p>
-              </div>
-
-              <div className="mt-8 border-t border-dashed border-rule-2 pt-5">
-                <span className="inline-flex items-center gap-2">
-                  <span className="block h-1.5 w-1.5 rounded-full bg-gold" />
-                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                    Fuller culture copy pending &middot; client to supply
+            <ul className="border-t border-rule">
+              {TENETS.map((t, i) => (
+                <li
+                  key={t}
+                  className="flex items-baseline gap-5 border-b border-rule py-5 max-md:gap-4 max-md:py-4"
+                >
+                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted shrink-0">
+                    {String(i + 1).padStart(2, "0")}
                   </span>
-                </span>
-              </div>
-            </div>
+                  <p className="font-serif font-normal text-green-700 leading-[1.35] tracking-[-0.012em] text-[clamp(18px,1.8vw,22px)]">
+                    {t}
+                  </p>
+                </li>
+              ))}
+            </ul>
           </Reveal>
         </div>
       </div>

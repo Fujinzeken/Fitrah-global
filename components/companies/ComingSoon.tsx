@@ -1,14 +1,41 @@
 import { Eyebrow } from "../common/Eyebrow";
 import { Reveal } from "../common/Reveal";
 
-// PRD §9 Page 4 §4 — Coming soon. Names verbatim from PRD §2 Strategic Goals
-// ("future companies such as Sokin, Basirah, Nikoh, Maryam, Fitrah AI, Fitrah
-// Media, Fitrah Labs, and Fitrah Ventures"). Only the three not detailed
-// elsewhere are surfaced here: Sokin, Nikoh, Maryam. The PRD gives them no
-// category, description, or status, so this section shows names only — no
-// fabricated detail. Tied to Fitrah Labs, the PRD's incubation studio.
+// PRD §9 Page 4 §4 — Coming Soon. Category / Status / Description for each
+// item verbatim from client-supplied content (new-info.md, "Priority 3
+// (Companies Page)"). Three new platforms being researched and built inside
+// Fitrah Labs.
 
-const UPCOMING = ["Sokin", "Nikoh", "Maryam"];
+type Upcoming = {
+  name: string;
+  category: string;
+  status: string;
+  description: string;
+};
+
+const UPCOMING: Upcoming[] = [
+  {
+    name: "Maryam",
+    category: "Women's Education",
+    status: "Active Development",
+    description:
+      "Maryam is a women-first Arabic learning platform combining AI-guided learning, structured curriculum, and dedicated female instructors. The platform helps Muslim women learn Arabic in a safe, supportive, and personalized environment.",
+  },
+  {
+    name: "Sokin",
+    category: "Community & Wellbeing",
+    status: "Research & Validation",
+    description:
+      "Sokin is exploring how technology can help address loneliness, belonging, and meaningful human connection through local communities, learning circles, family gatherings, and faith-centered experiences.",
+  },
+  {
+    name: "Nikoh",
+    category: "Family & Marriage",
+    status: "Active Research",
+    description:
+      "Nikoh is a trust-based marriage platform designed to help Muslims find compatible spouses through values-first matching, family involvement, personality assessment, and ethical technology.",
+  },
+];
 
 export function ComingSoon() {
   return (
@@ -24,38 +51,38 @@ export function ComingSoon() {
           </h2>
         </Reveal>
         <Reveal delay={200}>
-          <p className="mt-6 max-w-[56ch] text-[16px] leading-[1.65] text-ink/70">
-            New platforms in early exploration inside Fitrah Labs. Names
-            first &mdash; details as they take shape.
+          <p className="mt-6 max-w-[58ch] text-[16px] leading-[1.65] text-ink/75">
+            Three new platforms in active development inside Fitrah Labs,
+            spanning education, community, and family.
           </p>
         </Reveal>
 
         <div className="mt-16 grid grid-cols-3 gap-6 max-md:mt-12 max-md:grid-cols-1 max-md:gap-5">
-          {UPCOMING.map((name, i) => (
-            <Reveal key={name} delay={260 + i * 80} className="contents">
+          {UPCOMING.map((p, i) => (
+            <Reveal key={p.name} delay={260 + i * 80} className="contents">
               <article className="flex h-full flex-col rounded-xl border border-rule-2 bg-ivory p-8 max-md:p-7">
-                <div className="flex items-center gap-2.5">
-                  <span className="block h-1.5 w-1.5 rounded-full bg-gold" />
-                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-                    Coming soon
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                    {p.category}
+                  </span>
+                  <span className="rounded-full border border-gold/35 bg-gold/[0.04] px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-gold">
+                    {p.status}
                   </span>
                 </div>
 
-                <h3 className="mt-10 font-serif font-normal text-green-700 leading-[1.05] tracking-[-0.018em] text-[clamp(28px,2.6vw,40px)] max-md:mt-8">
-                  {name}
+                <h3 className="mt-8 font-serif font-normal text-green-700 leading-[1.05] tracking-[-0.018em] text-[clamp(28px,2.6vw,40px)] max-md:mt-7">
+                  {p.name}
                 </h3>
 
-                <div className="mt-auto pt-10 max-md:pt-8">
-                  <div className="border-t border-rule pt-5 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                    Details to follow
-                  </div>
-                </div>
+                <p className="mt-5 text-[14.5px] leading-[1.6] text-ink/80">
+                  {p.description}
+                </p>
               </article>
             </Reveal>
           ))}
         </div>
 
-        <Reveal delay={500}>
+        <Reveal delay={520}>
           <p className="mt-10 font-mono text-[11px] uppercase tracking-[0.14em] text-ink/55">
             Researched, prototyped, and validated inside Fitrah Labs.
           </p>

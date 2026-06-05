@@ -2,13 +2,27 @@ import { Eyebrow } from "../common/Eyebrow";
 import { Reveal } from "../common/Reveal";
 import { Icon } from "../common/Icon";
 
-// PRD §9 Page 6 §3 — Research Reports. PRD supplies no reports. Built as a
-// research-library row list shown as intentional empty states. Report content
-// is flagged pending; logged in placeholders.md.
+// PRD §9 Page 6 §3 — Research Reports. Report titles verbatim from
+// client-supplied content (new-info.md, "Fitrah Media Content Strategy →
+// Pillar 1 Reports"). Subtitles list the report's coverage themes (also
+// supplied). Abstracts and PDF downloads still pending.
 
-function Bar({ w }: { w: string }) {
-  return <span className="block h-2.5 rounded-full bg-rule" style={{ width: w }} />;
-}
+type Report = { title: string; coverage: string };
+
+const REPORTS: Report[] = [
+  {
+    title: "State of the Muslim Digital Economy 2026",
+    coverage: "Startups · Investment · AI · FinTech · Commerce",
+  },
+  {
+    title: "Muslim Creator Economy Report",
+    coverage: "Creators · Newsletters · Courses · Media businesses",
+  },
+  {
+    title: "Global Muslim Venture Capital Report",
+    coverage: "Funds · LPs · Exits · Investments",
+  },
+];
 
 export function ResearchReports() {
   return (
@@ -32,22 +46,26 @@ export function ResearchReports() {
             <span className="inline-flex items-center gap-2">
               <span className="block h-1.5 w-1.5 rounded-full bg-gold" />
               <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                Reports pending
+                Reports in research
               </span>
             </span>
           </Reveal>
         </div>
 
         <div className="mt-14 border-t border-rule max-md:mt-10">
-          {[0, 1, 2].map((i) => (
-            <Reveal key={i} delay={240 + i * 80} className="contents">
+          {REPORTS.map((r, i) => (
+            <Reveal key={r.title} delay={240 + i * 80} className="contents">
               <div className="grid grid-cols-[44px_1fr_auto] items-center gap-8 border-b border-rule py-8 max-md:gap-5 max-md:py-7">
                 <span className="text-green-700 opacity-70">
                   <Icon name="docs" size={26} />
                 </span>
-                <div className="space-y-2.5">
-                  <Bar w="44%" />
-                  <Bar w="28%" />
+                <div>
+                  <h3 className="font-serif font-normal text-green-700 leading-[1.2] tracking-[-0.012em] text-[clamp(20px,1.9vw,24px)]">
+                    {r.title}
+                  </h3>
+                  <p className="mt-2 font-mono text-[10.5px] uppercase tracking-[0.14em] text-muted">
+                    {r.coverage}
+                  </p>
                 </div>
                 <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
                   Coming soon
@@ -59,8 +77,8 @@ export function ResearchReports() {
 
         <Reveal delay={520}>
           <p className="mt-8 max-w-[56ch] text-[14px] italic leading-[1.65] text-muted">
-            Research reports will be published here &mdash; titles, abstracts,
-            and downloads supplied by the client.
+            Full reports, abstracts, and downloads will be published as each
+            is finalized.
           </p>
         </Reveal>
       </div>

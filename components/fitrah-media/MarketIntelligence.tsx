@@ -1,10 +1,18 @@
 import { Eyebrow } from "../common/Eyebrow";
 import { Reveal } from "../common/Reveal";
 
-// PRD §9 Page 6 §4 — Market Intelligence. PRD supplies no data. Built as a
-// dashboard-style tile grid shown as intentional empty states. No figures are
-// invented and the home page's cited stats are not reused here. Data is
-// flagged pending; logged in placeholders.md.
+// PRD §9 Page 6 §4 — Market Intelligence. The four weekly coverage areas are
+// verbatim from client-supplied content (new-info.md, "Fitrah Media Content
+// Strategy → Pillar 3 Intelligence"). Specific figures are still pending —
+// each tile shows its topic and a "weekly coverage" label, no invented
+// numbers and home page's cited stats not reused.
+
+const TOPICS = [
+  "Startup funding",
+  "Acquisitions",
+  "AI developments",
+  "Islamic economy",
+];
 
 export function MarketIntelligence() {
   return (
@@ -33,15 +41,18 @@ export function MarketIntelligence() {
         </div>
 
         <div className="mt-14 grid grid-cols-4 gap-5 max-lg:grid-cols-2 max-md:mt-10 max-md:grid-cols-1">
-          {[0, 1, 2, 3].map((i) => (
-            <Reveal key={i} delay={240 + i * 70} className="contents">
+          {TOPICS.map((topic, i) => (
+            <Reveal key={topic} delay={240 + i * 70} className="contents">
               <div className="rounded-xl border border-rule-2 bg-ivory p-7">
-                {/* Placeholder figure */}
-                <span className="block h-9 w-3/5 rounded-md bg-rule" />
-                {/* Placeholder label */}
-                <span className="mt-4 block h-2.5 w-4/5 rounded-full bg-rule" />
-                <div className="mt-8 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                  Metric pending
+                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                  Weekly coverage
+                </span>
+                <h3 className="mt-4 font-serif font-normal text-green-700 leading-[1.15] tracking-[-0.014em] text-[clamp(20px,1.9vw,24px)]">
+                  {topic}
+                </h3>
+                <span className="mt-6 block h-2.5 w-3/5 rounded-full bg-rule" />
+                <div className="mt-3 font-mono text-[9.5px] uppercase tracking-[0.14em] text-muted">
+                  Figures coming soon
                 </div>
               </div>
             </Reveal>
@@ -50,8 +61,8 @@ export function MarketIntelligence() {
 
         <Reveal delay={560}>
           <p className="mt-8 max-w-[58ch] text-[14px] italic leading-[1.65] text-ink/70">
-            Market metrics &mdash; figures, sources, and timeframes &mdash; to
-            be supplied by the client. All published numbers must be cited.
+            Live figures and sources will be published as each weekly tracker
+            comes online. All published numbers will be cited.
           </p>
         </Reveal>
       </div>

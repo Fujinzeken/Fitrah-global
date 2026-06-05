@@ -3,12 +3,12 @@ import { Reveal } from "../common/Reveal";
 import { Icon } from "../common/Icon";
 
 // PRD §9 Page 10 §§2–5 — Latest essays, Research reports, Company
-// announcements, Product updates. PRD supplies no content. Each is a real,
-// anchored <section> shown as an intentional empty state, with a distinct
-// treatment (essay cards / report rows / dated announcements / changelog) so
-// the page previews its eventual structure rather than repeating one skeleton.
-// Real category + content-type labels are used where shown. Content flagged
-// pending; logged in placeholders.md.
+// announcements, Product updates.
+//   • Latest Essays + Research Reports → real titles from client content
+//     (new-info.md, "Fitrah Media Content Strategy"). Article bodies, images,
+//     abstracts, and downloads still pending.
+//   • Company Announcements + Product Updates → still empty states; PRD and
+//     client supply no specific items. Each tracker is structurally complete.
 
 function Bar({ w }: { w: string }) {
   return <span className="block h-2.5 rounded-full bg-rule" style={{ width: w }} />;
@@ -44,39 +44,58 @@ function SectionHead({
   );
 }
 
+type Essay = { title: string; category: string };
+const ESSAYS: Essay[] = [
+  { title: "Solving Loneliness in the Ummah", category: "Digital Wellbeing" },
+  {
+    title: "The Next 100 Unicorns of the Muslim World",
+    category: "Muslim Digital Economy",
+  },
+  { title: "The Future of Islamic AI", category: "AI and Society" },
+];
+
+type Report = { title: string; coverage: string };
+const REPORTS: Report[] = [
+  {
+    title: "State of the Muslim Digital Economy 2026",
+    coverage: "Startups · Investment · AI · FinTech · Commerce",
+  },
+  {
+    title: "Global Muslim Venture Capital Report",
+    coverage: "Funds · LPs · Exits · Investments",
+  },
+];
+
 export function InsightsFeeds() {
   return (
     <>
       {/* Latest essays — card grid */}
       <section id="essays" className="border-t border-rule scroll-mt-20">
         <div className="mx-auto max-w-[1320px] px-10 max-md:px-[22px] py-[110px] max-md:py-[72px]">
-          <SectionHead eyebrow="Latest Essays" flag="Essays pending" />
+          <SectionHead eyebrow="Latest Essays" flag="Essays in writing" />
           <div className="mt-12 grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1 max-md:mt-10">
-            {["Ethical Technology", "AI and Society", "Digital Wellbeing"].map(
-              (cat, i) => (
-                <Reveal key={cat} delay={200 + i * 80} className="contents">
-                  <article className="flex h-full flex-col overflow-hidden rounded-xl border border-rule bg-ivory">
-                    <div className="relative grid aspect-[16/9] place-items-center bg-ivory-2">
-                      <span className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-muted">
-                        Image
-                      </span>
+            {ESSAYS.map((essay, i) => (
+              <Reveal key={essay.title} delay={200 + i * 80} className="contents">
+                <article className="flex h-full flex-col overflow-hidden rounded-xl border border-rule bg-ivory">
+                  <div className="relative grid aspect-[16/9] place-items-center bg-ivory-2">
+                    <span className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-muted">
+                      Image
+                    </span>
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <span className="self-start rounded-full border border-rule-2 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-ink/60">
+                      {essay.category}
+                    </span>
+                    <h3 className="mt-5 font-serif font-normal text-green-700 leading-[1.2] tracking-[-0.012em] text-[clamp(18px,1.6vw,22px)]">
+                      {essay.title}
+                    </h3>
+                    <div className="mt-auto pt-6 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                      Coming soon
                     </div>
-                    <div className="flex flex-1 flex-col p-6">
-                      <span className="self-start rounded-full border border-rule-2 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-ink/60">
-                        {cat}
-                      </span>
-                      <div className="mt-5 space-y-2.5">
-                        <Bar w="90%" />
-                        <Bar w="62%" />
-                      </div>
-                      <div className="mt-auto pt-6 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                        Coming soon
-                      </div>
-                    </div>
-                  </article>
-                </Reveal>
-              ),
-            )}
+                  </div>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -84,17 +103,21 @@ export function InsightsFeeds() {
       {/* Research reports — rows */}
       <section id="reports" className="border-t border-rule scroll-mt-20">
         <div className="mx-auto max-w-[1320px] px-10 max-md:px-[22px] py-[110px] max-md:py-[72px]">
-          <SectionHead eyebrow="Research Reports" flag="Reports pending" />
+          <SectionHead eyebrow="Research Reports" flag="Reports in research" />
           <div className="mt-12 border-t border-rule max-md:mt-10">
-            {[0, 1].map((i) => (
-              <Reveal key={i} delay={200 + i * 80} className="contents">
+            {REPORTS.map((r, i) => (
+              <Reveal key={r.title} delay={200 + i * 80} className="contents">
                 <div className="grid grid-cols-[44px_1fr_auto] items-center gap-8 border-b border-rule py-8 max-md:gap-5 max-md:py-7">
                   <span className="text-green-700 opacity-70">
                     <Icon name="docs" size={26} />
                   </span>
-                  <div className="space-y-2.5">
-                    <Bar w="46%" />
-                    <Bar w="30%" />
+                  <div>
+                    <h3 className="font-serif font-normal text-green-700 leading-[1.2] tracking-[-0.012em] text-[clamp(18px,1.7vw,22px)]">
+                      {r.title}
+                    </h3>
+                    <p className="mt-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-muted">
+                      {r.coverage}
+                    </p>
                   </div>
                   <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
                     Coming soon
@@ -106,7 +129,7 @@ export function InsightsFeeds() {
         </div>
       </section>
 
-      {/* Company announcements — dated news list */}
+      {/* Company announcements — dated news list (still empty state) */}
       <section id="announcements" className="border-t border-rule scroll-mt-20">
         <div className="mx-auto max-w-[1320px] px-10 max-md:px-[22px] py-[110px] max-md:py-[72px]">
           <SectionHead eyebrow="Company Announcements" flag="Announcements pending" />
@@ -130,7 +153,7 @@ export function InsightsFeeds() {
         </div>
       </section>
 
-      {/* Product updates — changelog style */}
+      {/* Product updates — changelog style (still empty state) */}
       <section id="updates" className="border-t border-rule scroll-mt-20">
         <div className="mx-auto max-w-[1320px] px-10 max-md:px-[22px] py-[110px] max-md:py-[72px]">
           <SectionHead eyebrow="Product Updates" flag="Updates pending" />

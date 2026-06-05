@@ -1,14 +1,15 @@
 import { Eyebrow } from "../common/Eyebrow";
 import { Reveal } from "../common/Reveal";
 
-// PRD §9 Page 10 §1 — Featured insight. PRD supplies no content. Built as a
-// large featured-article layout shown as an intentional empty state, with a
-// real category tag + content-type label so the structure is legible. Content
-// flagged pending; logged in placeholders.md.
+// PRD §9 Page 10 §1 — Featured insight. Title verbatim from client-supplied
+// content (new-info.md, "Fitrah Media Content Strategy → Pillar 2 Essays").
+// Article body and image still pending.
 
-function Bar({ w }: { w: string }) {
-  return <span className="block h-3 rounded-full bg-rule" style={{ width: w }} />;
-}
+const FEATURED = {
+  title: "Building Institutions Instead of Startups",
+  category: "Muslim Digital Economy",
+  type: "Essay",
+};
 
 export function FeaturedInsight() {
   return (
@@ -22,7 +23,7 @@ export function FeaturedInsight() {
             <span className="inline-flex items-center gap-2">
               <span className="block h-1.5 w-1.5 rounded-full bg-gold" />
               <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                Content pending
+                Article in writing
               </span>
             </span>
           </Reveal>
@@ -54,18 +55,16 @@ export function FeaturedInsight() {
             <div className="flex flex-col justify-center p-12 max-md:p-8">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-full border border-rule-2 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-ink/60">
-                  Muslim Digital Economy
+                  {FEATURED.category}
                 </span>
                 <span className="rounded-full border border-gold/35 bg-gold/[0.04] px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-gold">
-                  Essay
+                  {FEATURED.type}
                 </span>
               </div>
 
-              <div className="mt-7 space-y-3">
-                <Bar w="94%" />
-                <Bar w="80%" />
-                <Bar w="60%" />
-              </div>
+              <h2 className="mt-7 font-serif font-normal text-green-700 leading-[1.1] tracking-[-0.018em] text-[clamp(28px,3.2vw,42px)]">
+                {FEATURED.title}
+              </h2>
 
               <div className="mt-8 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
                 Featured piece coming soon

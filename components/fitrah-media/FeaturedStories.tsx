@@ -1,22 +1,33 @@
 import { Eyebrow } from "../common/Eyebrow";
 import { Reveal } from "../common/Reveal";
 
-// PRD §9 Page 6 §2 — Featured Stories. PRD supplies no stories. Built as a
-// real editorial feed layout (one featured + two secondary) shown as
-// intentional empty states, so the client sees the structure the CMS will
-// fill. Category tags are real (PRD §9 Page 6 Categories); story content is
-// flagged pending. Logged in placeholders.md.
+// PRD §9 Page 6 §2 — Featured Stories. Story titles + categories supplied
+// from client content (new-info.md, "Fitrah Media Content Strategy → Pillar
+// 2 Essays"). Article bodies and images still pending — cards show the real
+// upcoming titles with "Article coming soon" status.
 
-// Skeleton bar for where copy will sit — static, not a loading animation.
-function Bar({ w }: { w: string }) {
-  return <span className="block h-2.5 rounded-full bg-rule" style={{ width: w }} />;
-}
+type Story = { title: string; category: string };
+
+const FEATURED: Story = {
+  title: "The Next 100 Unicorns of the Muslim World",
+  category: "Muslim Digital Economy",
+};
+const SECONDARY: Story[] = [
+  {
+    title: "Why the Muslim World Needs Its Own Digital Infrastructure",
+    category: "Ethical Technology",
+  },
+  {
+    title: "The Future of Islamic AI",
+    category: "AI and Society",
+  },
+];
 
 function StoryCard({
-  category,
+  story,
   featured = false,
 }: {
-  category: string;
+  story: Story;
   featured?: boolean;
 }) {
   return (
@@ -48,16 +59,19 @@ function StoryCard({
       {/* Body */}
       <div className={`flex flex-1 flex-col ${featured ? "p-8" : "p-6"}`}>
         <span className="self-start rounded-full border border-rule-2 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-ink/60">
-          {category}
+          {story.category}
         </span>
 
-        <div className={`mt-5 space-y-2.5 ${featured ? "" : ""}`}>
-          <Bar w="92%" />
-          <Bar w="68%" />
-        </div>
+        <h3
+          className={`mt-5 font-serif font-normal text-green-700 leading-[1.15] tracking-[-0.014em] ${
+            featured ? "text-[clamp(24px,2.6vw,32px)]" : "text-[clamp(18px,1.6vw,22px)]"
+          }`}
+        >
+          {story.title}
+        </h3>
 
         <div className="mt-auto pt-6 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-          Coming soon
+          Article coming soon
         </div>
       </div>
     </article>
@@ -86,7 +100,7 @@ export function FeaturedStories() {
             <span className="inline-flex items-center gap-2">
               <span className="block h-1.5 w-1.5 rounded-full bg-gold" />
               <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                Editorial content pending
+                Articles in writing
               </span>
             </span>
           </Reveal>
@@ -94,15 +108,14 @@ export function FeaturedStories() {
 
         <div className="mt-14 grid grid-cols-[1.4fr_1fr] gap-6 max-lg:grid-cols-1 max-md:mt-10">
           <Reveal delay={240}>
-            <StoryCard category="Muslim Digital Economy" featured />
+            <StoryCard story={FEATURED} featured />
           </Reveal>
           <div className="flex flex-col gap-6">
-            <Reveal delay={300}>
-              <StoryCard category="Ethical Technology" />
-            </Reveal>
-            <Reveal delay={360}>
-              <StoryCard category="AI and Society" />
-            </Reveal>
+            {SECONDARY.map((s, i) => (
+              <Reveal key={s.title} delay={300 + i * 60}>
+                <StoryCard story={s} />
+              </Reveal>
+            ))}
           </div>
         </div>
       </div>

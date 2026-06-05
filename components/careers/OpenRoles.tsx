@@ -2,20 +2,55 @@ import { Eyebrow } from "../common/Eyebrow";
 import { Reveal } from "../common/Reveal";
 import { ArrowRight } from "../common/ArrowRight";
 
-// PRD §9 Page 11 §6 — Open Roles. PRD lists no specific roles and the PRD Role
-// Card Requirements describe the card anatomy (title, department, location,
-// type, description, apply CTA). With no roles supplied, this is an honest
-// empty state: no current openings, with a route into the talent community.
-// The role-card structure is noted for when listings are connected. Flagged
-// in placeholders.md.
+// PRD §9 Page 11 §6 — Open Roles. The four Founding Roles + their
+// responsibilities are verbatim from client-supplied content (new-info.md,
+// "First Roles"). Defaults used pending client confirmation:
+//   • Department — derived from the role name (matches the PRD Teams list).
+//   • Location — "Open / Remote" as a founding-stage default.
+//   • Type — "Full-time" as a founding-stage default.
+//   • Apply CTA — routes to /contact (no ATS connected).
+// These defaults are logged in placeholders.md.
 
-const CARD_FIELDS = [
-  "Job title",
-  "Department",
-  "Location / Remote",
-  "Type",
-  "Description",
-  "Apply",
+type Role = {
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  description: string;
+};
+
+const ROLES: Role[] = [
+  {
+    title: "Founding Research Analyst",
+    department: "Research",
+    location: "Open / Remote",
+    type: "Full-time",
+    description:
+      "Researches the Muslim economy, startups, venture capital, and technology.",
+  },
+  {
+    title: "Founding Designer",
+    department: "Design",
+    location: "Open / Remote",
+    type: "Full-time",
+    description: "Builds design systems, brand, and products.",
+  },
+  {
+    title: "Founding Product Builder",
+    department: "Product",
+    location: "Open / Remote",
+    type: "Full-time",
+    description:
+      "Builds AI and software. Ships MVPs rapidly across the ecosystem.",
+  },
+  {
+    title: "Venture Studio Associate",
+    department: "Ventures",
+    location: "Open / Remote",
+    type: "Full-time",
+    description:
+      "Launches new companies. Works across products and venture-building.",
+  },
 ];
 
 export function OpenRoles() {
@@ -23,54 +58,78 @@ export function OpenRoles() {
     <section id="roles" className="border-t border-rule scroll-mt-20">
       <div className="mx-auto max-w-[1320px] px-10 max-md:px-[22px] py-[120px] max-md:py-[80px]">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <Reveal>
-            <Eyebrow>Open Roles</Eyebrow>
-          </Reveal>
-          <Reveal delay={120}>
-            <span className="inline-flex items-center gap-2">
-              <span className="block h-1.5 w-1.5 rounded-full bg-gold" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                Listings pending
-              </span>
+          <div>
+            <Reveal>
+              <Eyebrow>Open Roles</Eyebrow>
+            </Reveal>
+            <Reveal delay={120}>
+              <h2 className="mt-6 max-w-[22ch] font-serif font-normal text-green-700 leading-[1.05] tracking-[-0.022em] text-[clamp(28px,3.4vw,44px)]">
+                Our first{" "}
+                <em className="italic font-light text-green-500">
+                  founding roles.
+                </em>
+              </h2>
+            </Reveal>
+          </div>
+          <Reveal delay={200}>
+            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+              {ROLES.length} open &middot; before engineering
             </span>
           </Reveal>
         </div>
 
-        <Reveal delay={200}>
-          <div className="mt-12 rounded-2xl border border-dashed border-rule-2 bg-ivory/50 px-10 py-16 text-center max-md:mt-10 max-md:px-7 max-md:py-12">
-            <p className="mx-auto max-w-[40ch] font-serif font-light italic leading-[1.35] text-green-500 text-[clamp(22px,2.6vw,32px)]">
-              No open roles at the moment.
-            </p>
-            <p className="mx-auto mt-5 max-w-[46ch] text-[15px] leading-[1.6] text-muted">
-              We&rsquo;re always meeting mission-aligned people. Join the talent
-              community and we&rsquo;ll reach out when a role fits.
-            </p>
-            <a
-              href="#talent"
-              className="group mt-8 inline-flex items-center gap-2.5 rounded-full bg-green-700 px-5 py-3 text-[14px] font-medium text-ivory transition-colors hover:bg-green-800"
-            >
-              Join the talent community
-              <span className="transition-transform group-hover:translate-x-0.5">
-                <ArrowRight />
-              </span>
-            </a>
+        <Reveal delay={260}>
+          <p className="mt-7 max-w-[58ch] text-[16px] leading-[1.65] text-ink/75">
+            The roles we&rsquo;re hiring before anything else &mdash; the
+            founders behind the institution.
+          </p>
+        </Reveal>
 
-            {/* Role-card anatomy — shown so the listing structure is legible
-                for when roles are connected. */}
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-2 border-t border-rule pt-7">
-              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                Each listing will include:
-              </span>
-              {CARD_FIELDS.map((f) => (
-                <span
-                  key={f}
-                  className="rounded-full border border-rule-2 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.13em] text-ink/60"
-                >
-                  {f}
-                </span>
-              ))}
-            </div>
-          </div>
+        <div className="mt-14 grid grid-cols-2 gap-6 max-md:mt-10 max-md:grid-cols-1 max-md:gap-5">
+          {ROLES.map((r, i) => (
+            <Reveal key={r.title} delay={320 + i * 80} className="contents">
+              <article className="group flex h-full flex-col rounded-xl border border-rule bg-ivory p-8 transition-colors duration-300 hover:border-rule-2 max-md:p-7">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                    {r.department}
+                  </span>
+                  <span className="rounded-full border border-gold/35 bg-gold/[0.04] px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-gold">
+                    {r.type}
+                  </span>
+                </div>
+
+                <h3 className="mt-7 font-serif font-normal text-green-700 leading-[1.1] tracking-[-0.014em] text-[clamp(22px,2vw,28px)]">
+                  {r.title}
+                </h3>
+
+                <p className="mt-4 text-[15px] leading-[1.6] text-ink/80">
+                  {r.description}
+                </p>
+
+                <div className="mt-7 flex items-center justify-between gap-3 border-t border-rule pt-5">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+                    {r.location}
+                  </span>
+                  <a
+                    href="/contact"
+                    className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-green-700 transition-colors group-hover:text-gold"
+                  >
+                    Apply
+                    <span className="transition-transform group-hover:translate-x-0.5">
+                      <ArrowRight />
+                    </span>
+                  </a>
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal delay={680}>
+          <p className="mt-10 max-w-[56ch] text-[14px] italic leading-[1.6] text-muted">
+            Don&rsquo;t see your role? Join the talent community below
+            &mdash; we&rsquo;re always meeting mission-aligned people.
+          </p>
         </Reveal>
       </div>
     </section>

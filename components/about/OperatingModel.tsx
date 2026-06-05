@@ -4,21 +4,16 @@ import { Eyebrow } from "../common/Eyebrow";
 import { Icon, type IconName } from "../common/Icon";
 import { useInView } from "../common/useInView";
 
-// PRD §9 Page 2 lists "Our Operating Model" as required but provides no copy.
-// Built as a schematic — three operating arms resting on a shared
-// infrastructure base — mirroring the homepage Ecosystem Map's blueprint
-// aesthetic. Arm framings are placeholder pending client confirmation.
+// PRD §9 Page 2 — Our Operating Model. Three-arm structure verbatim from
+// client-supplied content (new-info.md, "Priority 4 (Operating Model)").
+// Per the client: "This structure is simple, scalable, and understandable to
+// investors, partners, media, and future employees." Labs is part of the
+// ecosystem but is not one of the three operating arms in this framing.
 //
-// A quiet PatternRadial overlay sits behind the schematic, ported from the
-// brand book (brand-sections.jsx Section06Patterns 06.B "Radial · 6-fold
-// restrained tile"). Per brand intent: "patterns extend the mark's geometry
-// — never decorate." Opacity is dialed low so it reads as constructive
-// armature, not decoration.
+// The PatternRadial overlay (ported from brand book §06.B) sits behind the
+// three arms as a quiet schematic armature — never decoration.
 
 function PatternRadial() {
-  // Brand-book pattern (brand-sections.jsx PatternRadial) ported with the
-  // PRD palette: stroke uses green-500 at low opacity instead of brand's
-  // bone-on-olive. 6 rows × 11 cols of circles + inner-circles + axes.
   const r = 22;
   return (
     <svg
@@ -46,71 +41,53 @@ function PatternRadial() {
     </svg>
   );
 }
+
 const ARMS: { name: string; theme: string; icon: IconName }[] = [
   {
-    name: "Operating Companies",
-    theme: "Platforms shipping today",
+    name: "Fitrah Technologies",
+    theme: "Builds products and shared infrastructure.",
     icon: "globe",
   },
   {
-    name: "Labs",
-    theme: "Research, prototyping, incubation",
-    icon: "compass",
+    name: "Fitrah Media",
+    theme:
+      "Produces knowledge, research, education, storytelling, and thought leadership.",
+    icon: "media",
   },
   {
-    name: "Ventures",
-    theme: "Investment and venture-building",
+    name: "Fitrah Ventures",
+    theme: "Incubates, launches, acquires, and scales new companies.",
     icon: "ventures",
   },
 ];
 
-function railClasses(i: number, last: number) {
-  if (i === 0) return "left-1/2 right-[-8px]";
-  if (i === last) return "left-[-8px] right-1/2";
-  return "left-[-8px] right-[-8px]";
-}
-
-const T = {
-  arms: 0,
-  trunk: 350,
-  rail: 600,
-  drops: 850,
-  base: 1100,
-} as const;
-
 export function OperatingModel() {
-  const last = ARMS.length - 1;
   const { ref, inView } = useInView({ rootMargin: "0px 0px -10% 0px" });
-
   const blockFade = inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3";
-  const scaleY = inView ? "scale-y-100" : "scale-y-0";
-  const scaleX = inView ? "scale-x-100" : "scale-x-0";
 
   return (
     <section className="border-t border-rule">
       <div className="mx-auto max-w-[1320px] px-10 max-md:px-[22px] py-[140px] max-md:py-[88px]">
         <div ref={ref}>
-          {/* Header */}
-          <div className="flex flex-wrap items-center gap-3">
-            <Eyebrow>Our Operating Model</Eyebrow>
-            <span className="rounded-full border border-gold/40 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-gold">
-              Placeholder copy
-            </span>
-          </div>
+          <Eyebrow>Our Operating Model</Eyebrow>
 
-          <p className="mt-7 max-w-[58ch] text-[17px] leading-[1.6] text-muted">
-            How Fitrah Global operates across platforms, ventures, and shared
-            infrastructure &mdash; suggested structure shown; client to confirm
-            and supply the final framing.
+          <h2 className="mt-6 max-w-[22ch] font-serif font-normal text-green-700 leading-[1.05] tracking-[-0.022em] text-[clamp(28px,3.4vw,44px)]">
+            Three arms.{" "}
+            <em className="italic font-light text-green-500">One mission.</em>
+          </h2>
+
+          <p className="mt-7 max-w-[58ch] text-[17px] leading-[1.65] text-ink/85">
+            Fitrah Global operates through three arms, each building a
+            different layer of the institution &mdash; products, ideas, and
+            companies.
           </p>
 
-          {/* Schematic — relative container holds the PatternRadial overlay
-              behind the operating-arm cards and rail. */}
-          <div className="relative mt-20 max-md:mt-12">
-            {/* Brand pattern overlay (Section 06.B) — quiet armature */}
-            <div className="pointer-events-none absolute inset-x-[-10%] -top-12 -bottom-24 overflow-hidden opacity-90 max-md:hidden">
+          {/* Three operating arms — schematic with a quiet brand pattern
+              overlay. No shared-infrastructure base: Fitrah Technologies now
+              owns the shared infrastructure layer, per the client's framing. */}
+          <div className="relative mt-16 max-md:mt-12">
+            <div className="pointer-events-none absolute inset-x-[-10%] -top-12 -bottom-12 overflow-hidden opacity-90 max-md:hidden">
               <PatternRadial />
-              {/* Soft radial fade so the pattern dissolves at the edges */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -120,58 +97,24 @@ export function OperatingModel() {
               />
             </div>
 
-            {/* Three operating arms */}
             <div className="relative grid grid-cols-3 gap-4 max-md:grid-cols-1 max-md:gap-3">
               {ARMS.map((a, i) => (
-                <div
+                <article
                   key={a.name}
-                  className={`rounded-xl border border-rule bg-ivory px-6 py-9 transition-all duration-700 ease-out motion-reduce:transition-none ${blockFade}`}
-                  style={{ transitionDelay: `${T.arms + i * 100}ms` }}
+                  className={`rounded-xl border border-rule bg-ivory px-7 py-10 transition-all duration-700 ease-out motion-reduce:transition-none ${blockFade}`}
+                  style={{ transitionDelay: `${i * 100}ms` }}
                 >
                   <span className="text-green-700 opacity-70">
-                    <Icon name={a.icon} size={22} />
+                    <Icon name={a.icon} size={24} />
                   </span>
-                  <h3 className="mt-5 font-serif text-[22px] text-green-700 tracking-[-0.012em]">
+                  <h3 className="mt-6 font-serif text-[22px] text-green-700 tracking-[-0.012em] leading-[1.2]">
                     {a.name}
                   </h3>
-                  <p className="mt-2 text-[13px] italic leading-[1.6] text-muted/85">
+                  <p className="mt-3 text-[14.5px] leading-[1.6] text-ink/80">
                     {a.theme}
                   </p>
-                </div>
+                </article>
               ))}
-            </div>
-
-            {/* Connector (desktop): a single rail spanning the cards, then a
-                centered trunk down to the base. Drops omitted — three cards
-                resting on a shared rail reads as cleanly schematic without
-                the box-shaped negative space that drops create. */}
-            <div className="relative h-7 max-md:hidden">
-              <span
-                className={`absolute top-3 left-[8.333%] right-[8.333%] h-px origin-center bg-rule transition-transform duration-700 ease-out motion-reduce:transition-none ${scaleX}`}
-                style={{ transitionDelay: `${T.rail}ms` }}
-              />
-            </div>
-
-            {/* Trunk from rail to base */}
-            <div className="mx-auto flex h-7 w-px justify-center">
-              <span
-                className={`block h-full w-px origin-top bg-rule transition-transform duration-500 ease-out motion-reduce:transition-none ${scaleY}`}
-                style={{ transitionDelay: `${T.trunk}ms` }}
-              />
-            </div>
-
-            {/* Shared infrastructure base */}
-            <div
-              className={`rounded-xl border border-rule bg-sand px-8 py-9 text-center transition-all duration-700 ease-out motion-reduce:transition-none ${blockFade}`}
-              style={{ transitionDelay: `${T.base}ms` }}
-            >
-              <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-green-700">
-                Shared Infrastructure
-              </div>
-              <div className="mt-2 font-mono text-[11px] uppercase tracking-[0.12em] text-ink/60">
-                Identity &middot; Trust &middot; Safety &middot; Design Systems
-                &middot; AI Layer
-              </div>
             </div>
           </div>
         </div>

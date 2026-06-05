@@ -1,8 +1,8 @@
 import { Eyebrow } from "./Eyebrow";
 import { Reveal } from "./Reveal";
 
-// Message verbatim from client-supplied content (new-info.md, "Homepage
-// Leadership Message Copy"). Portrait still not supplied — placeholder.
+// Message verbatim from client-supplied content (new-info.md, "Founder Message
+// (Recommended Final Version)"). Portrait still not supplied — placeholder.
 export function LeadershipMessage() {
   return (
     <section className="border-t border-rule">
@@ -26,30 +26,33 @@ export function LeadershipMessage() {
           <Reveal delay={80}>
             <blockquote className="space-y-5 font-serif font-light text-green-700 leading-[1.4] tracking-[-0.012em] text-[clamp(20px,2.2vw,28px)]">
               <p>
-                Fitrah Global was created from a simple belief: the digital
-                world should serve people, not pull them away from their
-                values, families, communities, and purpose.
+                The next generation of transformative companies will not be
+                built solely around technology. They will be built around{" "}
+                <em className="italic text-green-500">purpose.</em>
               </p>
               <p>
-                For too long, the most important digital platforms in our lives
-                have been designed around{" "}
-                <em className="italic text-green-500">
-                  attention, addiction, and consumption.
-                </em>{" "}
-                We believe the next generation of technology must be different.
-                It must be built around trust, clarity, responsibility, and
-                human nature.
-              </p>
-              <p>
-                Our ambition is to build a family of platforms that help
-                Muslims communicate, learn, discover, trade, create, and grow
-                in a more values-aligned digital environment. This is not only
-                about building apps. It is about building digital
-                infrastructure for a global community.
+                For too long, Muslims have participated in the digital economy
+                primarily as users rather than builders. Yet across the world,
+                we possess extraordinary talent, creativity, capital, and
+                ambition.
               </p>
               <p className="text-green-500 italic">
-                Fitrah Global exists to build that future with patience,
-                excellence, and long-term responsibility.
+                Fitrah Global was created to help unlock that potential.
+              </p>
+              <p>
+                Our goal is not simply to launch products. Our goal is to
+                build enduring institutions that empower people to learn,
+                connect, build families, create businesses, and contribute
+                positively to society.
+              </p>
+              <p>
+                We believe technology should strengthen human flourishing, not
+                replace it. We believe innovation and values can coexist. And
+                we believe the Muslim world has an important role to play in
+                shaping the future.
+              </p>
+              <p className="text-green-500 italic">
+                This is only the beginning.
               </p>
             </blockquote>
 
@@ -57,7 +60,7 @@ export function LeadershipMessage() {
               <div className="h-px w-10 bg-rule-2" />
               <div>
                 <div className="font-serif text-[18px] text-green-700">
-                  Mukhammad Khalil
+                  Muhammad Khalil
                 </div>
                 <div className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
                   Founder, Fitrah Global
